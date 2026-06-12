@@ -1,0 +1,1196 @@
+/* ================================================================
+   JUNGLE WARFARE 3D — AMAZON STRIKE
+   Premium CSS Stylesheet — style.css
+   Full HUD, Menus, Effects, Animations
+================================================================ */
+
+/* ----------------------------------------------------------------
+   1. RESET & ROOT VARIABLES
+---------------------------------------------------------------- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --jungle-dark:     #0a1a08;
+  --jungle-mid:      #142b10;
+  --jungle-green:    #1e4a18;
+  --jungle-bright:   #2d6b24;
+  --jungle-lime:     #4caf30;
+  --jungle-accent:   #7ed348;
+  --jungle-glow:     #a8ff6a;
+  --danger-red:      #e03020;
+  --danger-dark:     #8b1a0d;
+  --warn-orange:     #e07020;
+  --warn-yellow:     #e0c020;
+  --info-cyan:       #20c8e0;
+  --ammo-gold:       #e0b030;
+  --ui-bg:           rgba(0, 0, 0, 0.55);
+  --ui-border:       rgba(100, 200, 60, 0.25);
+  --ui-border-hot:   rgba(100, 200, 60, 0.7);
+  --text-primary:    #e8ffe0;
+  --text-secondary:  #8ec880;
+  --text-muted:      #4a7a40;
+  --font-hud:        'Courier New', 'Lucida Console', monospace;
+  --font-title:      Georgia, 'Times New Roman', serif;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: var(--font-hud);
+  color: var(--text-primary);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.hidden { display: none !important; }
+
+/* ----------------------------------------------------------------
+   2. LOADING SCREEN
+---------------------------------------------------------------- */
+#loadingScreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(ellipse at center, #0d2a0a 0%, #000 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.load-inner {
+  text-align: center;
+  max-width: 500px;
+  padding: 40px;
+}
+
+.load-logo {
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: var(--jungle-accent);
+  text-shadow: 0 0 30px var(--jungle-lime), 0 0 60px rgba(100, 200, 60, 0.3);
+  letter-spacing: 4px;
+  margin-bottom: 8px;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.load-sub {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+.load-bar-wrap {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.load-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--jungle-green), var(--jungle-accent), var(--jungle-glow));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 12px var(--jungle-lime);
+}
+
+.load-status {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+  min-height: 1.2em;
+}
+
+.load-tip {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* ----------------------------------------------------------------
+   3. MAIN MENU
+---------------------------------------------------------------- */
+#mainMenu {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 8%;
+  overflow: hidden;
+}
+
+.menu-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 70% 50%, rgba(20, 80, 10, 0.35) 0%, transparent 60%),
+    linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(5,20,3,0.85) 40%, rgba(10,30,8,0.7) 100%);
+  z-index: 0;
+}
+
+.menu-content {
+  position: relative;
+  z-index: 2;
+}
+
+.menu-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 8px;
+  color: var(--jungle-accent);
+  margin-bottom: 12px;
+  text-shadow: 0 0 10px var(--jungle-lime);
+}
+
+.menu-title {
+  font-family: var(--font-title);
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-weight: 900;
+  line-height: 0.9;
+  color: #fff;
+  text-shadow:
+    0 0 40px rgba(100, 200, 60, 0.4),
+    2px 4px 0 rgba(0,0,0,0.8);
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+}
+
+.menu-subtitle {
+  font-size: 0.8rem;
+  letter-spacing: 10px;
+  color: var(--text-secondary);
+  margin-bottom: 48px;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 48px;
+}
+
+.menu-btn {
+  display: inline-block;
+  padding: 14px 36px;
+  font-family: var(--font-hud);
+  font-size: 0.82rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  background: rgba(0,0,0,0.5);
+  border: 1px solid var(--ui-border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  min-width: 260px;
+}
+
+.menu-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(100,200,60,0.06));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.menu-btn:hover {
+  border-color: var(--ui-border-hot);
+  color: var(--jungle-glow);
+  background: rgba(30, 74, 24, 0.4);
+  transform: translateX(6px);
+  box-shadow: 0 0 20px rgba(100,200,60,0.2), inset 0 0 20px rgba(100,200,60,0.05);
+}
+
+.menu-btn:hover::before { opacity: 1; }
+
+.menu-btn.primary {
+  background: rgba(30, 74, 24, 0.7);
+  border-color: var(--jungle-bright);
+  color: var(--jungle-glow);
+}
+
+.menu-btn.primary:hover {
+  background: rgba(50, 110, 40, 0.8);
+  box-shadow: 0 0 30px rgba(100,200,60,0.4);
+}
+
+.menu-footer {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 3px;
+}
+
+/* Menu floating particles */
+.menu-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.menu-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--jungle-accent);
+  opacity: 0;
+  animation: float-particle var(--dur, 8s) var(--delay, 0s) ease-in-out infinite;
+}
+
+@keyframes float-particle {
+  0%   { opacity: 0; transform: translateY(0) scale(0.5); }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.4; }
+  100% { opacity: 0; transform: translateY(-80vh) scale(1.5) rotate(180deg); }
+}
+
+/* ----------------------------------------------------------------
+   4. PANELS (Controls, Credits)
+---------------------------------------------------------------- */
+.panel {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: rgba(0,0,0,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel-inner {
+  background: rgba(10, 26, 8, 0.95);
+  border: 1px solid var(--ui-border);
+  padding: 48px;
+  max-width: 520px;
+  width: 90%;
+  box-shadow: 0 0 60px rgba(100,200,60,0.15);
+}
+
+.panel-inner h2 {
+  font-size: 1.4rem;
+  letter-spacing: 6px;
+  color: var(--jungle-accent);
+  margin-bottom: 32px;
+  text-align: center;
+  text-shadow: 0 0 15px var(--jungle-lime);
+}
+
+.controls-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.ctrl-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(100,200,60,0.1);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.key {
+  display: inline-block;
+  min-width: 100px;
+  padding: 4px 10px;
+  background: rgba(0,0,0,0.6);
+  border: 1px solid var(--ui-border);
+  border-radius: 3px;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  color: var(--jungle-accent);
+  text-align: center;
+}
+
+/* ----------------------------------------------------------------
+   5. GAME CANVAS
+---------------------------------------------------------------- */
+#gameCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: none;
+  z-index: 1;
+}
+
+/* ----------------------------------------------------------------
+   6. HUD WRAPPER
+---------------------------------------------------------------- */
+#hud {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------------
+   7. TOP HUD BAR
+---------------------------------------------------------------- */
+.hud-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 16px 24px 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+}
+
+.hud-wave,
+.hud-score-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.hud-label {
+  font-size: 0.6rem;
+  letter-spacing: 4px;
+  color: var(--text-muted);
+}
+
+.hud-value {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--jungle-accent);
+  text-shadow: 0 0 12px var(--jungle-lime);
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.hud-center-top {
+  text-align: center;
+}
+
+.hud-objective {
+  font-size: 0.68rem;
+  letter-spacing: 4px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.hud-timer {
+  font-size: 1.1rem;
+  color: #fff;
+  letter-spacing: 4px;
+  text-shadow: 0 0 8px rgba(255,255,255,0.4);
+}
+
+/* ----------------------------------------------------------------
+   8. CROSSHAIR
+---------------------------------------------------------------- */
+.crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
+
+.ch-top, .ch-bottom, .ch-left, .ch-right {
+  position: absolute;
+  background: rgba(255,255,255,0.92);
+  border-radius: 1px;
+}
+
+.ch-top, .ch-bottom {
+  width: 2px;
+  height: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.ch-top    { top: 0; }
+.ch-bottom { bottom: 0; }
+
+.ch-left, .ch-right {
+  width: 8px;
+  height: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.ch-left  { left: 0; }
+.ch-right { right: 0; }
+
+.ch-dot {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #fff;
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Crosshair spread state */
+.crosshair.spread .ch-top    { transform: translateX(-50%) translateY(-4px); }
+.crosshair.spread .ch-bottom { transform: translateX(-50%) translateY(4px);  }
+.crosshair.spread .ch-left   { transform: translateY(-50%) translateX(-4px); }
+.crosshair.spread .ch-right  { transform: translateY(-50%) translateX(4px);  }
+
+.crosshair.ads .ch-top,
+.crosshair.ads .ch-bottom,
+.crosshair.ads .ch-left,
+.crosshair.ads .ch-right {
+  opacity: 0;
+}
+
+/* ----------------------------------------------------------------
+   9. HIT MARKER
+---------------------------------------------------------------- */
+.hit-marker {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.05s;
+}
+
+.hm-tl, .hm-tr, .hm-bl, .hm-br {
+  position: absolute;
+  width: 9px;
+  height: 2px;
+  background: #ff4444;
+}
+.hm-tl { top: 4px;  left: 4px;  transform: rotate(-45deg); }
+.hm-tr { top: 4px;  right: 4px; transform: rotate(45deg);  }
+.hm-bl { bottom: 4px; left: 4px;  transform: rotate(45deg);  }
+.hm-br { bottom: 4px; right: 4px; transform: rotate(-45deg); }
+
+.hit-marker.active { opacity: 1; }
+
+/* ----------------------------------------------------------------
+   10. BOTTOM LEFT HUD — Health / Armor / Stamina
+---------------------------------------------------------------- */
+.hud-bottom-left {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 20px;
+  background: var(--ui-bg);
+  border: 1px solid var(--ui-border);
+  border-radius: 2px;
+  backdrop-filter: blur(4px);
+  min-width: 220px;
+}
+
+.hud-health-wrap,
+.hud-armor-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hud-icon {
+  font-size: 1.1rem;
+  min-width: 22px;
+  text-align: center;
+}
+.hud-icon.small { font-size: 0.85rem; }
+
+.health-bars {
+  flex: 1;
+}
+
+.bar-label {
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.bar-track.thin { height: 3px; }
+
+.bar-fill {
+  height: 100%;
+  width: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.health-fill {
+  background: linear-gradient(90deg, var(--danger-red), #e05020, #e08020);
+  box-shadow: 0 0 8px rgba(220, 50, 30, 0.5);
+}
+
+.armor-fill {
+  background: linear-gradient(90deg, #2080c0, var(--info-cyan));
+  box-shadow: 0 0 6px rgba(32, 180, 220, 0.4);
+}
+
+.stamina-fill {
+  background: linear-gradient(90deg, var(--jungle-bright), var(--jungle-accent));
+  box-shadow: 0 0 6px rgba(100, 200, 60, 0.4);
+}
+
+.hud-stamina-wrap {
+  padding-top: 4px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ----------------------------------------------------------------
+   11. BOTTOM RIGHT HUD — Weapon & Ammo
+---------------------------------------------------------------- */
+.hud-bottom-right {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 16px 20px;
+  background: var(--ui-bg);
+  border: 1px solid var(--ui-border);
+  border-radius: 2px;
+  backdrop-filter: blur(4px);
+}
+
+.hud-weapon-name {
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.hud-ammo-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.ammo-current {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: var(--ammo-gold);
+  text-shadow: 0 0 15px rgba(220, 170, 40, 0.5);
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.ammo-sep {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
+
+.ammo-reserve {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+}
+
+.ammo-icons {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 180px;
+}
+
+.ammo-pip {
+  width: 5px;
+  height: 12px;
+  background: var(--ammo-gold);
+  border-radius: 1px;
+  opacity: 0.8;
+}
+
+.ammo-pip.empty {
+  background: var(--text-muted);
+  opacity: 0.3;
+}
+
+.reload-msg {
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  color: var(--warn-orange);
+  text-shadow: 0 0 10px rgba(220,110,30,0.6);
+  animation: blink 0.6s ease-in-out infinite;
+  display: none;
+}
+
+.reload-msg.active { display: block; }
+
+.weapon-switch-ui {
+  display: flex;
+  gap: 8px;
+}
+
+.wsw-item {
+  font-size: 0.62rem;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  padding: 3px 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+.wsw-item.active {
+  color: var(--jungle-accent);
+  border-color: var(--ui-border);
+  background: rgba(100,200,60,0.1);
+}
+
+/* ----------------------------------------------------------------
+   12. MINIMAP
+---------------------------------------------------------------- */
+.minimap-wrap {
+  position: absolute;
+  top: 80px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+#minimapCanvas {
+  border: 1px solid var(--ui-border);
+  background: rgba(0,0,0,0.7);
+  border-radius: 50%;
+  box-shadow: 0 0 16px rgba(100,200,60,0.2);
+}
+
+.minimap-label {
+  font-size: 0.55rem;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+}
+
+.minimap-compass {
+  font-size: 0.7rem;
+  color: var(--jungle-accent);
+  letter-spacing: 2px;
+}
+
+/* ----------------------------------------------------------------
+   13. KILL FEED
+---------------------------------------------------------------- */
+.kill-feed {
+  position: absolute;
+  top: 80px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 280px;
+}
+
+.kill-entry {
+  padding: 5px 10px;
+  background: rgba(0,0,0,0.65);
+  border-left: 2px solid var(--danger-red);
+  font-size: 0.68rem;
+  letter-spacing: 1px;
+  color: var(--text-primary);
+  animation: slide-in-kill 0.2s ease, fade-kill 3s 1s forwards;
+  white-space: nowrap;
+}
+
+.kill-entry.headshot {
+  border-left-color: var(--warn-yellow);
+  color: var(--warn-yellow);
+}
+
+@keyframes slide-in-kill {
+  from { transform: translateX(-20px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fade-kill {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ----------------------------------------------------------------
+   14. GRENADE HUD
+---------------------------------------------------------------- */
+.grenade-hud {
+  position: absolute;
+  bottom: 140px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ui-bg);
+  border: 1px solid var(--ui-border);
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+.grenade-icon { font-size: 1.1rem; }
+
+/* ----------------------------------------------------------------
+   15. SCREEN EFFECTS
+---------------------------------------------------------------- */
+.screen-damage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(200, 20, 10, 0.6) 100%);
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.screen-heal {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(60, 200, 80, 0.3) 100%);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.screen-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0,0,0,0.5) 100%
+  );
+}
+
+/* ----------------------------------------------------------------
+   16. SCOPE OVERLAY
+---------------------------------------------------------------- */
+.scope-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.scope-circle {
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  box-shadow:
+    0 0 0 2px rgba(100,200,60,0.5),
+    0 0 0 3px rgba(0,0,0,0.8),
+    0 0 0 2000px rgba(0,0,0,0.92);
+}
+
+.scope-cross-h,
+.scope-cross-v {
+  position: absolute;
+  background: rgba(100,200,60,0.7);
+}
+
+.scope-cross-h {
+  width: 100%;
+  height: 1px;
+  top: 50%;
+}
+
+.scope-cross-v {
+  width: 1px;
+  height: 100%;
+  left: 50%;
+}
+
+.scope-data {
+  position: absolute;
+  bottom: 20%;
+  right: 10%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: rgba(100,200,60,0.8);
+  letter-spacing: 2px;
+}
+
+/* ----------------------------------------------------------------
+   17. NOTIFICATIONS CENTER
+---------------------------------------------------------------- */
+.notif-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: -100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.notif-item {
+  padding: 8px 24px;
+  background: rgba(0,0,0,0.7);
+  border: 1px solid var(--ui-border);
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  color: var(--jungle-accent);
+  text-shadow: 0 0 10px var(--jungle-lime);
+  animation: notif-in 0.3s ease, notif-out 0.5s 1.5s forwards;
+}
+
+@keyframes notif-in {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes notif-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ----------------------------------------------------------------
+   18. WARNINGS
+---------------------------------------------------------------- */
+.low-ammo-warn,
+.no-ammo-warn {
+  position: absolute;
+  bottom: 200px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 20px;
+  font-size: 0.72rem;
+  letter-spacing: 4px;
+  animation: blink 0.5s ease-in-out infinite;
+}
+
+.low-ammo-warn {
+  color: var(--warn-orange);
+  text-shadow: 0 0 10px rgba(220,110,30,0.7);
+}
+
+.no-ammo-warn {
+  color: var(--danger-red);
+  text-shadow: 0 0 10px rgba(220,30,20,0.7);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+/* ----------------------------------------------------------------
+   19. WAVE ANNOUNCEMENT
+---------------------------------------------------------------- */
+.wave-announce {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.wa-text {
+  font-family: var(--font-title);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 900;
+  color: var(--jungle-accent);
+  text-shadow:
+    0 0 40px var(--jungle-lime),
+    0 0 80px rgba(100,200,60,0.3),
+    2px 4px 0 rgba(0,0,0,0.8);
+  letter-spacing: 8px;
+  animation: wave-slam 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.wa-sub {
+  font-size: 0.8rem;
+  letter-spacing: 8px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  animation: wave-fade-in 0.5s 0.3s ease both;
+}
+
+@keyframes wave-slam {
+  from { transform: scale(2.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+@keyframes wave-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* ----------------------------------------------------------------
+   20. PAUSE MENU
+---------------------------------------------------------------- */
+.pause-menu {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+  backdrop-filter: blur(4px);
+}
+
+.pause-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px;
+  background: rgba(10,26,8,0.95);
+  border: 1px solid var(--ui-border);
+  box-shadow: 0 0 60px rgba(100,200,60,0.15);
+}
+
+.pause-inner h2 {
+  font-size: 1.6rem;
+  letter-spacing: 8px;
+  color: var(--jungle-accent);
+  margin-bottom: 24px;
+}
+
+/* ----------------------------------------------------------------
+   21. GAME OVER SCREEN
+---------------------------------------------------------------- */
+.gameover-screen {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+}
+
+.go-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  padding: 48px;
+  background: rgba(8,0,0,0.95);
+  border: 1px solid rgba(200,50,30,0.3);
+  box-shadow: 0 0 80px rgba(200,30,20,0.2);
+  max-width: 520px;
+  width: 90%;
+}
+
+.go-title {
+  font-family: var(--font-title);
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--danger-red);
+  text-shadow: 0 0 30px rgba(220,30,20,0.6);
+  letter-spacing: 4px;
+}
+
+.go-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+}
+
+.go-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  margin: 8px 0;
+}
+
+.go-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.gs-label {
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+}
+
+.gs-val {
+  font-size: 1.4rem;
+  color: var(--jungle-accent);
+  font-weight: bold;
+}
+
+/* ----------------------------------------------------------------
+   22. SCOREBOARD
+---------------------------------------------------------------- */
+.scoreboard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.88);
+  border: 1px solid var(--ui-border);
+  padding: 32px;
+  min-width: 320px;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.scoreboard h3 {
+  font-size: 0.9rem;
+  letter-spacing: 5px;
+  color: var(--jungle-accent);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.scoreboard table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+}
+
+.scoreboard th {
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  padding: 6px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--ui-border);
+}
+
+.scoreboard td {
+  padding: 7px 12px;
+  color: var(--text-primary);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.scoreboard td:last-child {
+  color: var(--jungle-accent);
+  text-align: right;
+}
+
+/* ----------------------------------------------------------------
+   23. GRENADE INDICATOR
+---------------------------------------------------------------- */
+.grenade-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  letter-spacing: 4px;
+  color: var(--warn-yellow);
+  pointer-events: none;
+  animation: blink 0.3s ease-in-out infinite;
+}
+
+.gi-ring {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--warn-yellow);
+  border-radius: 50%;
+  animation: gi-pulse 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes gi-pulse {
+  from { transform: scale(0.9); opacity: 0.7; }
+  to   { transform: scale(1.1); opacity: 1; }
+}
+
+/* ----------------------------------------------------------------
+   24. GENERAL ANIMATIONS
+---------------------------------------------------------------- */
+@keyframes pulse-glow {
+  0%, 100% { text-shadow: 0 0 20px var(--jungle-lime), 0 0 40px rgba(100,200,60,0.3); }
+  50%       { text-shadow: 0 0 40px var(--jungle-lime), 0 0 80px rgba(100,200,60,0.5); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-4px) translateY(2px); }
+  40%       { transform: translateX(4px) translateY(-2px); }
+  60%       { transform: translateX(-2px) translateY(1px); }
+  80%       { transform: translateX(2px) translateY(-1px); }
+}
+
+.shake { animation: shake 0.3s ease; }
+
+/* ----------------------------------------------------------------
+   25. MISC UTILITY
+---------------------------------------------------------------- */
+.glow-green {
+  text-shadow: 0 0 10px var(--jungle-lime);
+}
+
+.glow-red {
+  text-shadow: 0 0 10px rgba(220,30,20,0.8);
+}
+
+/* ----------------------------------------------------------------
+   26. RESPONSIVE
+---------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .hud-bottom-left,
+  .hud-bottom-right {
+    padding: 10px 12px;
+    min-width: 0;
+  }
+
+  .ammo-current { font-size: 2rem; }
+  .menu-title   { font-size: 3rem; }
+
+  #minimapCanvas {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* ----------------------------------------------------------------
+   27. SCROLLBAR (hidden)
+---------------------------------------------------------------- */
+::-webkit-scrollbar { width: 0; height: 0; }
